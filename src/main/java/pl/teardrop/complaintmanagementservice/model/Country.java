@@ -1,0 +1,23 @@
+package pl.teardrop.complaintmanagementservice.model;
+
+import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+
+@Embeddable
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class Country {
+
+    public static final Country UNKNOWN = new Country("UNKNOWN");
+    private String code;
+
+    public Country(String code) {
+        if (StringUtils.isBlank(code)) {
+            throw new IllegalArgumentException("Country can't be blank.");
+        }
+        this.code = code;
+    }
+}
