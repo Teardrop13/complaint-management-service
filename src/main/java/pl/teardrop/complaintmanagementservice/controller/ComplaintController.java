@@ -29,9 +29,13 @@ public class ComplaintController {
                                                       @RequestHeader(X_FORWARDED_FOR) String xForwarderFor) {
         log.info("Received POST /complaints with body: {}", command);
         ComplaintDto complaint = complaintFilingService.file(command, xForwarderFor);
-        return ResponseEntity
-                .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(complaint.id()).toUri()) // todo get endpoint
-                .body(complaint);
+        if (complaint.submissionCounter() == 1) {
+            return ResponseEntity
+                    .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(complaint.id()).toUri()) // todo get endpoint
+                    .body(complaint);
+        } else {
+            return ResponseEntity.ok(complaint);
+        }
     }
 
 }
