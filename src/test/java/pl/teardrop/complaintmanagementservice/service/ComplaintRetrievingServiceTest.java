@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import pl.teardrop.complaintmanagementservice.dto.ComplaintDto;
 import pl.teardrop.complaintmanagementservice.dto.ComplaintListDto;
 import pl.teardrop.complaintmanagementservice.exceptions.NotFoundException;
@@ -81,7 +82,7 @@ class ComplaintRetrievingServiceTest {
 
         when(complaintRepository.countByUserId(new UserId(userId)))
                 .thenReturn(size);
-        when(complaintRepository.findAllByUserId(new UserId(userId), PageRequest.of(page, size)))
+        when(complaintRepository.findAllByUserId(new UserId(userId), PageRequest.of(page, size, Sort.by("id"))))
                 .thenReturn(complaints);
 
         // when

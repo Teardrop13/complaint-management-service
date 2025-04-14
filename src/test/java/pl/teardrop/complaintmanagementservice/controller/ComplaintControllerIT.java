@@ -23,7 +23,9 @@ import pl.teardrop.complaintmanagementservice.service.CountryProvider;
 
 import java.time.temporal.ChronoUnit;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -160,5 +162,55 @@ class ComplaintControllerIT {
                 .put("/complaints/123")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    // Retrieving
+
+    @Test
+    void getComplaint_shouldReturnComplaintById() {
+        FileComplaintCommand command = new FileComplaintCommand(1L, "description", 2L);
+        ComplaintDto saved = complaintFilingService.file(command, "123.123.123.123");
+
+        get("/complaints/" + saved.id())
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(saved.id().intValue()))
+                .body("productId", equalTo(saved.productId().intValue()))
+                .body("description", equalTo(saved.description()))
+                .body("userId", equalTo(saved.userId().intValue()))
+                .body("country", equalTo(saved.country()))
+                .body("submissionCounter", equalTo(saved.submissionCounter()));
+    }
+
+    @Test
+    void getComplaint_shouldReturnNotFound_whenComplaintDoesntExist() {
+        get("/complaints/123")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void getComplaints_shouldReturnPaginatedComplaints() {
+        long userId = 1L;
+        int page = 0;
+        int size = 3;
+
+        for (int i = 0; i < 5; i++) {
+            FileComplaintCommand command = new FileComplaintCommand((long) i, "description", userId);
+            complaintFilingService.file(command, "123.123.123.123");
+        }
+
+        given()
+                .accept(ContentType.JSON)
+                .queryParam("userId", userId)
+                .queryParam("page", page)
+                .queryParam("size", size)
+                .when()
+                .get("/complaints")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("complaints.size()", equalTo(size))
+                .body("page", equalTo(page))
+                .body("pageSize", equalTo(size));
     }
 }
