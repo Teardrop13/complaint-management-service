@@ -2,6 +2,7 @@ package pl.teardrop.complaintmanagementservice.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentExceptio
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class Country {
 
     public static final Country UNKNOWN = new Country("UNKNOWN");

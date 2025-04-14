@@ -1,11 +1,13 @@
 package pl.teardrop.complaintmanagementservice.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 public class SubmissionCounter {
 
     private int count;
