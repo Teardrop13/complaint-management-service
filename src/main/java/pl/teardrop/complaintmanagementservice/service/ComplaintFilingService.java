@@ -30,12 +30,14 @@ public class ComplaintFilingService {
             complaint = complaintOpt.get();
             complaint.increaseSubmissionCounter();
             complaintRepository.save(complaint);
+            log.info("Updated submission counter for complaint with id={} for user={}", complaint.getId(), command.userId());
         } else {
             log.info("Creating complaint for user id={} for product id={}", command.userId(), command.productId());
             Ip userIp = IpExtractor.extractUsersIp(xForwarderForHeader);
             log.debug("From X-FORWARDED-FOR header: \"{}\" extracted user's ip: {}", xForwarderForHeader, userIp.value());
             complaint = complaintFactory.get(command, userIp);
             complaintRepository.save(complaint);
+            log.info("Saved complaint with id={} for user={}", complaint.getId(), command.userId());
         }
         return complaint.toDto();
     }

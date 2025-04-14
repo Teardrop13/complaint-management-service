@@ -12,6 +12,7 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.Validate;
 import pl.teardrop.complaintmanagementservice.dto.ComplaintDto;
 
@@ -31,6 +32,7 @@ public class Complaint {
     @AttributeOverride(name = "id", column = @Column(name = "PRODUCT_ID", nullable = false))
     private ProductId productId;
 
+    @Setter
     @Embedded
     @AttributeOverride(name = "text", column = @Column(name = "DESCRIPTION", nullable = false, length = Description.MAX_LENGTH))
     private Description description;

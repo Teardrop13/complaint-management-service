@@ -15,10 +15,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import pl.teardrop.complaintmanagementservice.dto.ComplaintDto;
 import pl.teardrop.complaintmanagementservice.dto.FileComplaintCommand;
+import pl.teardrop.complaintmanagementservice.dto.UpdateComplaintCommand;
 import pl.teardrop.complaintmanagementservice.model.Country;
 import pl.teardrop.complaintmanagementservice.repository.ComplaintRepository;
 import pl.teardrop.complaintmanagementservice.service.ComplaintFilingService;
 import pl.teardrop.complaintmanagementservice.service.CountryProvider;
+
+import java.time.temporal.ChronoUnit;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,6 +57,8 @@ class ComplaintControllerIT {
     void setUp() {
         complaintRepository.deleteAll();
     }
+
+    // Creating
 
     @Test
     void fileComplaint_shouldCreateComplaint_whenFilingComplaintFirstTime() {
@@ -117,5 +122,43 @@ class ComplaintControllerIT {
                 .post("/complaints")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    // Updating
+
+    @Test
+    void updateComplaint_shouldUpdateOnlyDescription() {
+        FileComplaintCommand command = new FileComplaintCommand(1L, "description", 2L);
+        UpdateComplaintCommand updateCommand = new UpdateComplaintCommand("changed description");
+
+        ComplaintDto existingComplaint = complaintFilingService.file(command, "123.123.123.123");
+
+        ComplaintDto updatedComplaint = given()
+                .contentType(ContentType.JSON)
+                .body(updateCommand)
+                .put("/complaints/" + existingComplaint.id())
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(ComplaintDto.class);
+
+        assertEquals(existingComplaint.id(), updatedComplaint.id());
+        assertEquals(existingComplaint.productId(), updatedComplaint.productId());
+        assertEquals(updateCommand.description(), updatedComplaint.description());
+        assertEquals(existingComplaint.creationDate().truncatedTo(ChronoUnit.MILLIS), updatedComplaint.creationDate().truncatedTo(ChronoUnit.MILLIS));
+        assertEquals(existingComplaint.userId(), updatedComplaint.userId());
+        assertEquals(existingComplaint.country(), updatedComplaint.country());
+        assertEquals(existingComplaint.submissionCounter(), updatedComplaint.submissionCounter());
+    }
+
+    @Test
+    void updateComplaint_shouldReturnNotFound_whenComplaintDoesntExist() {
+        UpdateComplaintCommand updateCommand = new UpdateComplaintCommand("changed description");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(updateCommand)
+                .put("/complaints/123")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 }
