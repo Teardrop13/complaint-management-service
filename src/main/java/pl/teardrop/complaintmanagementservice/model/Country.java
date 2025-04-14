@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 @Embeddable
 @Getter
@@ -16,7 +17,7 @@ public class Country {
 
     public Country(String code) {
         if (StringUtils.isBlank(code)) {
-            throw new IllegalArgumentException("Country can't be blank.");
+            throw new InvalidArgumentException("Country can't be blank.");
         }
         this.code = code;
     }

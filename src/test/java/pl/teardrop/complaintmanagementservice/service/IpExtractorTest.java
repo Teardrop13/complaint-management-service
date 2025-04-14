@@ -2,6 +2,7 @@ package pl.teardrop.complaintmanagementservice.service;
 
 import org.junit.jupiter.api.Test;
 import pl.teardrop.complaintmanagementservice.dto.Ip;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +25,7 @@ class IpExtractorTest {
 
     @Test
     void extractUsersIp_shouldThrowWhenHeaderIsEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> IpExtractor.extractUsersIp(""));
+        assertThrows(InvalidArgumentException.class, () -> IpExtractor.extractUsersIp(""));
     }
 
 }

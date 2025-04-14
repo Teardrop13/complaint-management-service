@@ -1,6 +1,7 @@
 package pl.teardrop.complaintmanagementservice.model;
 
 import org.junit.jupiter.api.Test;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,12 +10,12 @@ class CountryTest {
 
     @Test
     void constructor_shouldThrow_whenCountryCodeIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Country(" "));
+        assertThrows(InvalidArgumentException.class, () -> new Country(" "));
     }
 
     @Test
     void constructor_shouldThrow_whenCountryCodeIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Country(null));
+        assertThrows(InvalidArgumentException.class, () -> new Country(null));
     }
 
     @Test

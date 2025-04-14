@@ -3,6 +3,7 @@ package pl.teardrop.complaintmanagementservice.service;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import pl.teardrop.complaintmanagementservice.dto.Ip;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 import java.util.Arrays;
 
@@ -14,6 +15,6 @@ public class IpExtractor {
                 .map(String::trim)
                 .findFirst()
                 .map(Ip::new)
-                .orElseThrow(() -> new IllegalArgumentException("User's ip not found in X-Forwarder-For header: " + xForwardedForHeader));
+                .orElseThrow(() -> new InvalidArgumentException("User's ip not found in X-Forwarder-For header: " + xForwardedForHeader));
     }
 }

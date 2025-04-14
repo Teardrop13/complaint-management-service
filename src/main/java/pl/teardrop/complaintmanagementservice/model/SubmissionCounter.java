@@ -2,6 +2,7 @@ package pl.teardrop.complaintmanagementservice.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 @Embeddable
 @Getter
@@ -15,7 +16,7 @@ public class SubmissionCounter {
 
     private SubmissionCounter(int count) {
         if (count < 1) {
-            throw new IllegalArgumentException("Counter can't be less then 1, value: " + count);
+            throw new InvalidArgumentException("Counter can't be less then 1, value: " + count);
         }
         this.count = count;
     }

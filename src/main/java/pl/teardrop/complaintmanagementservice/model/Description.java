@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 @Embeddable
 @Getter
@@ -17,10 +18,10 @@ public class Description {
 
     public Description(String text) {
         if (StringUtils.isBlank(text)) {
-            throw new IllegalArgumentException("Description can't be blank.");
+            throw new InvalidArgumentException("Description can't be blank.");
         }
         if (text.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("Description with length " + text.length() + " exceeds max length.");
+            throw new InvalidArgumentException("Description with length " + text.length() + " exceeds max length.");
         }
         this.text = text;
     }

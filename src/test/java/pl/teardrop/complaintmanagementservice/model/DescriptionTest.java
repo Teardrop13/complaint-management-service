@@ -1,6 +1,7 @@
 package pl.teardrop.complaintmanagementservice.model;
 
 import org.junit.jupiter.api.Test;
+import pl.teardrop.complaintmanagementservice.exceptions.InvalidArgumentException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,18 +18,18 @@ class DescriptionTest {
 
     @Test
     void constructor_shouldThrow_whenTextIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Description(" "));
+        assertThrows(InvalidArgumentException.class, () -> new Description(" "));
     }
 
     @Test
     void constructor_shouldThrow_whenTextIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Description(null));
+        assertThrows(InvalidArgumentException.class, () -> new Description(null));
     }
 
     @Test
     void constructor_shouldThrow_whenTextExceedsMaxLength() {
         String longText = "a".repeat(Description.MAX_LENGTH + 1);
-        assertThrows(IllegalArgumentException.class, () -> new Description(longText));
+        assertThrows(InvalidArgumentException.class, () -> new Description(longText));
     }
 
     @Test
