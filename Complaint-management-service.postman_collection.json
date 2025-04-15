@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "1062bc8a-ddf8-4134-baaa-3ced3158c616",
+		"name": "Complaint-management-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29898696"
+	},
+	"item": [
+		{
+			"name": "add complaint",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-FORWARDED-FOR",
+						"value": "89.64.11.11,222.222.222.222",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": 1,\n    \"description\": \"aaa\",\n    \"userId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/complaints",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"complaints"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update complaint",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-FORWARDED-FOR",
+						"value": "89.64.26.42,222.222.222.222",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"updated\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/complaints/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"complaints",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all complaints",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/complaints?userId=1&page=0&size=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"complaints"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/complaints/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"complaints",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
